@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ReservationMapper">
+    <resultMap id="result" type="airbnb.server.persistence.DTO.ReservationDTO">
+        <result property="reservation_no" column="reservation_no"/>
+        <result property="host_no" column="host_no"/>
+        <result property="guest_no" column="guest_no"/>
+        <result property="house_no" column="house_no"/>
+        <result property="check_in" column="check_in"/>
+        <result property="check_out" column="check_out"/>
+        <result property="isReviewed" column="isReviewed"/>
+        <result property="isApproved" column="isApproved"/>
+        <result property="isCheckOuted" column="isCheckOuted"/>
+    </resultMap>
+
+    <resultMap id="hostAllInfoResult" type="HashMap">
+        <result property="guest_no" column="user_no"/>
+        <result property="guest_name" column="user.name"/>
+        <result property="house_no" column="house_no"/>
+        <result property="house_name" column="house.name"/>
+        <result property="check_in" column="check_in"/>
+        <result property="check_out" column="check_out"/>
+        <result property="reservation_no" column="reservation_no"/>
+    </resultMap>
+
+    <delete id="reservationDelete" parameterType="int">
+        DELETE FROM reservation WHERE reservation_no LIKE #{reservation_no}
+    </delete>
+
+    <select id="hostAllInfo" parameterType="int" resultMap="hostAllInfoResult">
+        SELECT user_no, name, reservation.house_no, houseName, check_in, check_out, reservation_no
+        FROM reservation
+            JOIN user ON reservation.guest_no = user.user_no
+            JOIN house ON reservation.house_no = house.house_no
+        WHERE host_no LIKE #{host_no} AND NOT isApproved
+    </select>
+
+    <select id="selectUnReviewedCheckOut" parameterType="int" resultType="HashMap">
+        SELECT reservation_no, check_out
+        FROM reservation
+        WHERE guest_no LIKE #{guest_no} AND NOT isReviewed
+    </select>
+
+    <select id="maxReservationNo" resultType="int" >
+        SELECT max(reservation_no) from reservation
+    </select>
+
+    <select id="selectHostInfo" parameterType="int" resultMap="result">
+        SELECT * from reservation WHERE host_no LIKE #{host_no} AND NOT isApproved
+    </select>
+
+    <select id="selectGuestInfo" parameterType="int" resultMap="result">
+        SELECT * from reservation WHERE guest_no LIKE #{guest_no}
+    </select>
+
+    <select id="selectApprovedGuestInfo" parameterType="int" resultType="HashMap">
+        SELECT houseName, house.house_no, reservation_no, check_in, check_out
+        From reservation JOIN house ON reservation.house_no = house.house_no
+        WHERE guest_no LIKE #{guest_no}
+    </select>
+
+    <insert id="insertReservation" >
+        INSERT INTO reservation(host_no, guest_no, house_no,check_in,check_out, isReviewed)
+        VALUES (#{host_no},
+                #{guest_no},
+                #{house_no},
+                #{check_in},
+                #{check_out},
+                #{isReviewed}
+               )
+    </insert>
+
+    <update id="reviewed" parameterType="int">
+        UPDATE reservation SET isReviewed = true WHERE #{reservation_no}=reservation_no
+    </update>
+
+    <update id="approved" parameterType="int">
+        UPDATE reservation SET isApproved = true WHERE #{reservation_no}=reservation_no
+    </update>
+
+    <update id="checkOuted" parameterType="int">
+        UPDATE reservation SET isCheckOuted = true WHERE #{reservation_no}=reservation_no
+    </update>
+
+    <update id="unCheckOuted" parameterType="int">
+        UPDATE reservation SET isCheckOuted = false WHERE #{reservation_no}=reservation_no
+    </update>
+
+    <select id="reservationDateList" parameterType="int" resultType="HashMap">
+        SELECT reservation_no, check_in, check_out
+        FROM reservation
+        WHERE host_no LIKE #{host_no} AND isApproved LIKE TRUE
+    </select>
+
+    <select id="AllApprovedList" resultType="HashMap">
+        SELECT reservation_no, check_out
+        FROM reservation
+    </select>
+
+    <select id="reservationApprovedList" parameterType="int" resultType="HashMap">
+        SELECT check_in, check_out
+        FROM reservation
+        WHERE house_no LIKE #{house_no} AND isApproved
+    </select>
+
+    <delete id="dropReservation" parameterType="int">
+        DELETE FROM reservation WHERE reservation_no LIKE #{reservation_no}
+    </delete>
+</mapper>

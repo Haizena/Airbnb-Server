@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.DiscountMapper">
+    <resultMap id="AmountResult" type="airbnb.server.persistence.DTO.AmountDiscountDTO">
+        <result property="amount" column="amount"/>
+        <result property="house_no" column="house_no"/>
+        <result property="discount_no" column="discount_no"/>
+        <result property="dis_start_period" column="dis_start_period"/>
+        <result property="dis_end_period" column="dis_end_period"/>
+    </resultMap>
+
+    <resultMap id="RateResult" type="airbnb.server.persistence.DTO.RateDiscountDTO">
+        <result property="rate" column="rate"/>
+        <result property="house_no" column="house_no"/>
+        <result property="discount_no" column="discount_no"/>
+        <result property="dis_start_period" column="dis_start_period"/>
+        <result property="dis_end_period" column="dis_end_period"/>
+    </resultMap>
+
+    <select id="selectDiscount" parameterType="int" resultType="Map">
+        SELECT dis_start_period, dis_end_period, rate, amount
+        FROM amount_discount
+                 RIGHT JOIN discount ON amount_discount.discount_no = discount.discount_no
+                 LEFT JOIN rate_discount ON discount.discount_no = rate_discount.discount_no
+        WHERE house_no LIKE #{house_no}
+    </select>
+
+    <select id="recentlyAddedDiscountNo" resultType="int">
+        SELECT max(discount_no) FROM discount
+    </select>
+
+    <insert id="insertDiscount" parametertype="airbnb.server.persistence.DTO.DiscountDTO">
+        INSERT INTO discount(house_no, dis_start_period, dis_end_period)
+        VALUES (#{house_no},
+                #{dis_start_period},
+                #{dis_end_period})
+    </insert>
+
+    <insert id="insertAmount">
+        INSERT INTO amount_discount(discount_no, amount)
+        VALUES (#{discount_no}, #{amount})
+    </insert>
+
+    <insert id="insertRate">
+        INSERT INTO rate_discount(discount_no, rate)
+        VALUES (#{discount_no}, #{rate})
+    </insert>
+</mapper>

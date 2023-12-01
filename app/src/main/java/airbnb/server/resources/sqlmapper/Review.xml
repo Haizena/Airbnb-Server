@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ReviewMapper">
+    <resultMap id="result" type="airbnb.server.persistence.DTO.ReviewDTO">
+        <result property="review_no" column="review_no"/>
+        <result property="reservation_no" column="reservation_no"/>
+        <result property="comment" column="comment"/>
+        <result property="parent_no" column="parent_no"/>
+        <result property="star" column="star"/>
+    </resultMap>
+
+    <select id="isChecked" parameterType="int" resultType="HashMap">
+        SELECT reservation_no, houseName, check_out, check_in
+        FROM reservation JOIN house ON reservation.house_no = house.house_no
+        WHERE guest_no LIKE #{guest_no} AND isCheckOuted AND NOT isReviewed
+    </select>
+
+    <select id="maxReviewNo" resultType="int" >
+        SELECT max(review_no) FROM review
+    </select>
+
+    <insert id="insertReview" parametertype="airbnb.server.persistence.DTO.ReviewDTO" >
+        INSERT INTO review(reservation_no, comment,star)
+        VALUES (#{reservation_no},
+                #{comment},
+                #{star}
+                )
+    </insert>
+
+    <select id="callInsertReview" parameterType="HashMap" statementType="CALLABLE">
+        { CALL insertReview(#{inputReservation_no, mode=IN},
+                            #{inputComment, mode=IN},
+                            #{inputParent_no, mode=IN},
+                            #{inputStar, mode=IN})
+        }
+    </select>
+
+    <insert id="insertReReview" parametertype="airbnb.server.persistence.DTO.ReviewDTO" >
+        INSERT INTO review(reservation_no, comment, parent_no)
+        VALUES (#{reservation_no},
+                #{comment},
+                #{parent_no}
+               )
+    </insert>
+
+    <select id="review" parameterType="int" resultType="HashMap">
+        SELECT name, review_no, review.reservation_no, comment, parent_no, star
+        FROM review
+            JOIN reservation
+                ON review.reservation_no = reservation.reservation_no
+            JOIN user
+                ON guest_no = user_no
+         WHERE house_no LIKE #{house_no} AND star IS NOT NULL
+    </select>
+
+    <select id="reReview" parameterType="int" resultMap="result">
+        SELECT *
+        FROM review
+        WHERE parent_no LIKE #{review_no}
+    </select>
+
+    <select id="houseReview" parameterType="int" resultType="HashMap">
+        SELECT comment, star
+        FROM reservation
+            JOIN house ON reservation.house_no = house.house_no
+            JOIN review ON reservation.reservation_no = review.reservation_no
+        WHERE house.house_no LIKE #{house_no}
+    </select>
+
+</mapper>

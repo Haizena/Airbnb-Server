@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.HouseMapper">
+    <resultMap id="result" type="airbnb.server.persistence.DTO.HouseDTO">
+        <result property="house_no" column="house_no"/>
+        <result property="maxMember" column="maxMember"/>
+        <result property="host" column="host"/>
+        <result property="houseconve" column="houseconve"/>
+        <result property="houseName" column="houseName"/>
+        <result property="address" column="address"/>
+        <result property="introduction" column="introduction"/>
+        <result property="managerApproved" column="managerApproved"/>
+        <result property="bedroom" column="bedroom"/>
+        <result property="bed" column="bed"/>
+        <result property="bathroom" column="bathroom"/>
+    </resultMap>
+
+    <select id="selectHouse" parameterType="int" resultMap="result">
+        SELECT *
+        FROM house
+        WHERE house_no LIKE #{house_no}
+    </select>
+
+    <select id="selectAllOrderByPriceASC" resultType="HashMap">
+        SELECT house.house_no,
+               maxMember,
+               host,
+               houseconve,
+               houseName,
+               address,
+               introduction,
+               managerApproved,
+               weekday_pay
+        FROM house
+                 JOIN payment ON house.house_no = payment.house_no
+        ORDER BY payment.weekday_pay
+    </select>
+
+    <select id="selectAllOrderByPriceDESC" resultType="HashMap">
+        SELECT house.house_no,
+               maxMember,
+               host,
+               houseconve,
+               houseName,
+               address,
+               introduction,
+               managerApproved,
+               weekday_pay
+        FROM house
+                 JOIN payment ON house.house_no = payment.house_no
+        ORDER BY payment.weekday_pay DESC
+    </select>
+
+    <select id="maxHouseNo" resultType="int">
+        SELECT max(house_no)
+        FROM house
+    </select>
+
+    <select id="allHousePayMentInfo" parameterType="int" resultType="HashMap">
+        SELECT house.house_no, houseName, weekday_pay, weekend_pay
+        FROM house
+                 JOIN payment ON house.house_no = payment.house_no
+        WHERE host LIKE #{host_no}
+    </select>
+
+    <select id="allHouseDiscountInfo" parameterType="int" resultType="HashMap">
+        SELECT house.house_no, houseName, rate, amount
+        FROM house
+                 JOIN (SELECT house_no, rate, amount
+                       FROM discount
+                                JOIN amount_discount
+                                     ON discount.discount_no = amount_discount.discount_no
+                                JOIN rate_discount
+                                     ON discount.discount_no = rate_discount.discount_no) as T
+                      ON house.house_no = T.house_no
+        WHERE house.host LIKE #{host_no}
+    </select>
+
+    <select id="allApprovedHouseInfoByHost" parameterType="int" resultMap="result">
+        SELECT *
+        FROM house
+        where managerApproved
+          AND host LIKE #{host_no}
+    </select>
+
+    <select id="allApprovedHouseInfo" resultMap="result">
+        SELECT *
+        FROM house
+        where managerApproved
+    </select>
+
+    <select id="allHouseFilter" parameterType="HashMap" resultType="HashMap">
+        SELECT DISTINCT houseName, maxMember, roomNumber, weekday_pay, house.house_no
+        FROM house
+        LEFT JOIN individualroom ON house.house_no LIKE individualroom.house_no
+        LEFT JOIN reservation ON house.house_no = reservation.house_no
+        LEFT JOIN payment ON house.house_no LIKE payment.house_no
+        <where>
+            <if test="Word != null">
+                AND houseName LIKE CONCAT('%',#{Word},'%')
+            </if>
+            <if test="Individualroom != null">
+                AND roomNumber IS NOT NULL
+            </if>
+            <if test="WholeRoom != null">
+                AND roomNumber IS NULL
+            </if>
+            <if test="maxMember != null">
+                <![CDATA[AND maxMember >= #{maxMember}]]>
+            </if>
+            <if test="check_in != null">
+                <![CDATA[AND (roomNumber IS NOT NULL and roomNumber > (SELECT count(reservation.house_no) FROM reservation WHERE reservation.house_no LIKE house.house_no AND (check_in <= #{check_in} and check_out >= #{check_in})))]]>
+                <![CDATA[OR (roomNumber IS NULL and house.house_no NOT IN (SELECT house_no FROM reservation WHERE ( check_in <= #{check_in} and #{check_in} < check_out)))]]>
+            </if>
+            AND weekday_pay IS NOT null
+        </where>
+        AND managerApproved
+        <choose>
+            <when test="Sort == 1">
+                ORDER BY weekday_pay ASC
+            </when>
+
+            <otherwise>
+                ORDER BY weekday_pay DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="allUnApprovedHouseInfo" resultMap="result">
+        SELECT *
+        FROM house
+        where NOT managerApproved
+    </select>
+
+    <update id="approved" parameterType="int">
+        UPDATE house
+        SET managerApproved = true
+        WHERE #{house_no} = house_no
+    </update>
+
+    <insert id="insertHouse">
+        INSERT INTO house(houseName, address, maxMember, introduction, host, houseConve, bedroom, bed, bathroom)
+        VALUES (#{houseName},
+                #{address},
+                #{maxMember},
+                #{introduction},
+                #{host},
+                #{houseconve},
+                #{bedroom},
+                #{bed},
+                #{bathroom})
+    </insert>
+
+    <insert id="insertIndividualRoom">
+        INSERT INTO individualroom(house_no, roomNumber)
+        VALUES (#{house_no}, #{roomNumber})
+    </insert>
+
+    <update id="HouseApprove" parameterType="int">
+        UPDATE house SET managerApproved = true WHERE #{house_no}=house_no
+    </update>
+
+</mapper>
