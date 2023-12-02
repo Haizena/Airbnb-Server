@@ -2,7 +2,7 @@ package airbnb.server.persistence.request;
 
 import java.io.Serializable;
 
-import airbnb.depricated.persistence.request.type.RequestType;
+import airbnb.server.persistence.request.type.RequestType;
 import lombok.Getter;
 import lombok.Setter;
 

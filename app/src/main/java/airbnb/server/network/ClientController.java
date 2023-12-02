@@ -1,10 +1,10 @@
 package airbnb.server.network;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 
 import airbnb.server.persistence.request.*;
 import airbnb.server.util.Logger;
@@ -28,10 +28,16 @@ public class ClientController implements Runnable {
         }
         this.logger = logger;
 
-        logger.log("[CLIENT] " + clientSocket.getInetAddress() + " - CONNECTED");
+        logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - CONNECTED");
     }
 
     public void run()
+    {
+        // test();
+        start();
+    }
+
+    public void start()
     {
         Request packet = null;
         Object sendPacket = null;
@@ -41,7 +47,7 @@ public class ClientController implements Runnable {
             while(true)
             {
                 packet = (Request) ois.readObject();
-                logger.log("[CLIENT] " + clientSocket.getInetAddress() + " - REQUESTS " + packet.getType().getName());
+                logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - REQUESTS " + packet.getType().getName());
 
                 switch(packet.getType().type())
                 {
@@ -83,13 +89,13 @@ public class ClientController implements Runnable {
                 oos.flush();
             }
         }
-        catch (SocketException e)
+        catch (EOFException e)
         {
             close();
         }
         catch (Exception e)
         {
-            logger.log("[CLIENT] " + clientSocket.getInetAddress() + " - NETWORK ERROR");
+            logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - NETWORK ERROR");
             close();
         }
     }
@@ -98,11 +104,31 @@ public class ClientController implements Runnable {
     {
         try
         {
-            logger.log("[CLIENT] " + clientSocket.getInetAddress() + " - DISCONNECTED");
+            logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - DISCONNECTED");
 
             ois.close();
             oos.close();
             clientSocket.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void test()
+    {
+        try
+        {
+            while(true)
+            {
+                String testString = (String) ois.readObject();
+                logger.logConsole(testString);
+            }
+        }
+        catch(EOFException e)
+        {
+            close();
         }
         catch(Exception e)
         {
