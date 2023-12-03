@@ -5,7 +5,7 @@
 
 <mapper namespace="mapper.ConveMapper">
 
-    <select id="selectHouseConve" parameterType="int" resulttype="airbnb.server.persistence.DTO.HouseConveDTO">
+    <select id="selectHouseConve" parameterType="int" resultType="airbnb.server.persistence.DTO.HouseConveDTO">
         SELECT basic_no, manysearch_no, safety_no, access_no, houseconve_no
         FROM houseconve JOIN house ON houseconve.houseconve_no = house.houseconve
         WHERE house_no LIKE #{house_no}
@@ -20,7 +20,7 @@
         VALUES (#{basic_no}, #{manysearch_no}, #{safety_no}, #{access_no})
     </insert>
 
-    <select id="selectAccessConve" parameterType="int" resulttype="airbnb.server.persistence.DTO.AccessibilityConvesDTO">
+    <select id="selectAccessConve" parameterType="int" resultType="airbnb.server.persistence.DTO.AccessibilityConvesDTO">
         SELECT no_stair_entrance, entrance_width, corridor_width, accessibilityconve_no
         FROM acccessibilityconve
         WHERE accessibilityconve_no LIKE #{access_no}
@@ -35,7 +35,7 @@
         VALUES (#{no_stair_entrance}, #{entrance_width}, #{corridor_width})
     </insert>
 
-    <select id="selectBasicConve" parameterType="int" resulttype="airbnb.server.persistence.DTO.BasicConveDTO">
+    <select id="selectBasicConve" parameterType="int" resultType="airbnb.server.persistence.DTO.BasicConveDTO">
         SELECT toiletPaper, soap, towel, bedclothes, pilow, cleaningSupplies, basicconve_no
         FROM basicconve
         WHERE basicconve_no LIKE #{basic_no}
@@ -50,7 +50,7 @@
         VALUES (#{toiletPaper}, #{soap}, #{towel}, #{bedclothes}, #{pilow}, #{cleaningSupplies})
     </insert>
 
-    <select id="selectManySearchConve" parameterType="int" resulttype="airbnb.server.persistence.DTO.ManySearchConveDTO">
+    <select id="selectManySearchConve" parameterType="int" resultType="airbnb.server.persistence.DTO.ManySearchConveDTO">
         SELECT pool, wifi, kitchen, free_parking, jacuzzi, washer_dryer, air_conditioner, self_check_in, notebook_work_space, can_pets, manysearchconve_no
         FROM manysearchconve
         WHERE manysearchconve_no LIKE #{manysearch_no}
@@ -65,7 +65,7 @@
         VALUES (#{pool}, #{wifi}, #{kitchen}, #{free_parking}, #{jacuzzi}, #{washer_dryer}, #{air_conditioner}, #{self_check_in}, #{notebook_work_space}, #{can_pets}, #{manysearchconve_no})
     </insert>
 
-    <select id="selectSafetyConve" parameterType="int" resulttype="airbnb.server.persistence.DTO.SafetyConveDTO">
+    <select id="selectSafetyConve" parameterType="int" resultType="airbnb.server.persistence.DTO.SafetyConveDTO">
         SELECT carbon_Monoxide, fire_waring, extinguisher, aid_kit, emergencyInformation, safetyconve_no
         FROM safetyconve
         WHERE safetyconve_no LIKE #{safety_no}

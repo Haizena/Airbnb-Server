@@ -30,7 +30,7 @@ public class Server {
         try
         {
             serverSocket = new ServerSocket(portNo);
-            logger.log("[SERVER] " + InetAddress.getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort() + " - STARTED");
+            logger.log("[SERVER] Port# : " + serverSocket.getLocalPort() + " - STARTED");
 
             while(true)
             {

@@ -32,7 +32,7 @@
         SELECT max(discount_no) FROM discount
     </select>
 
-    <insert id="insertDiscount" parametertype="airbnb.server.persistence.DTO.DiscountDTO">
+    <insert id="insertDiscount" parameterType="airbnb.server.persistence.DTO.DiscountDTO">
         INSERT INTO discount(house_no, dis_start_period, dis_end_period)
         VALUES (#{house_no},
                 #{dis_start_period},

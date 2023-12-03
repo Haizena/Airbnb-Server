@@ -22,7 +22,7 @@
         SELECT max(review_no) FROM review
     </select>
 
-    <insert id="insertReview" parametertype="airbnb.server.persistence.DTO.ReviewDTO" >
+    <insert id="insertReview" parameterType="airbnb.server.persistence.DTO.ReviewDTO" >
         INSERT INTO review(reservation_no, comment,star)
         VALUES (#{reservation_no},
                 #{comment},
@@ -38,7 +38,7 @@
         }
     </select>
 
-    <insert id="insertReReview" parametertype="airbnb.server.persistence.DTO.ReviewDTO" >
+    <insert id="insertReReview" parameterType="airbnb.server.persistence.DTO.ReviewDTO" >
         INSERT INTO review(reservation_no, comment, parent_no)
         VALUES (#{reservation_no},
                 #{comment},
