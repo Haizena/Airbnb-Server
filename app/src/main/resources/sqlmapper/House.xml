@@ -86,9 +86,9 @@
           AND host LIKE #{host_no}
     </select>
 
-    <select id="allApprovedHouseInfo" resultMap="result">
-        SELECT *
-        FROM house
+    <select id="allApprovedHouseInfo" resultType="HashMap">
+        SELECT houseName, house.house_no, roomNumber
+        FROM house LEFT JOIN individualroom ON house.house_no LIKE individualroom.house_no
         where managerApproved
     </select>
 
@@ -129,9 +129,9 @@
         </choose>
     </select>
 
-    <select id="allUnApprovedHouseInfo" resultMap="result">
-        SELECT *
-        FROM house
+    <select id="allUnApprovedHouseInfo" resultType="HashMap">
+        SELECT houseName, house.house_no, roomNumber
+        FROM house LEFT JOIN individualroom ON house.house_no LIKE individualroom.house_no
         where NOT managerApproved
     </select>
 
@@ -163,11 +163,12 @@
         UPDATE house SET managerApproved = true WHERE #{house_no}=house_no
     </update>
 
-    <select id="individualCheckInNum" parameterType="int" resultType="int">
+    <select id="individualCheckInNum" parameterType="Map" resultType="int">
         SELECT count(reservation_no)
         FROM house
             JOIN individualroom ON house.house_no LIKE individualroom.house_no
             JOIN reservation ON house.house_no LIKE reservation.house_no
         WHERE reservation.house_no LIKE #{house_no}
+            AND <![CDATA[(#{check_out} < check_in or #{check_in} > check_out)]]>
     </select>
 </mapper>
