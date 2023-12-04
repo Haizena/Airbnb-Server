@@ -190,4 +190,16 @@ public class ReservationDAO {
             sqlSession.close();
         }
     }
+
+    public List<Map<String, Object>> hostAllInfoApproved (int host_no){
+        List<Map<String, Object>> list;
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            list = sqlSession.selectList("mapper.ReservationMapper.hostAllInfoApproved",host_no);
+        } finally {
+            sqlSession.close();
+        }
+        return list;
+    }
 }

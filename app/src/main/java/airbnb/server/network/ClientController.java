@@ -15,15 +15,12 @@ public class ClientController implements Runnable {
     private ObjectOutputStream oos;
     private Logger logger;
 
-    public ClientController(Socket clientSocket, Logger logger)
-    {
+    public ClientController(Socket clientSocket, Logger logger) {
         this.clientSocket = clientSocket;
-        try
-        {
+        try {
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         this.logger = logger;
@@ -31,110 +28,94 @@ public class ClientController implements Runnable {
         logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - CONNECTED");
     }
 
-    public void run()
-    {
+    public void run() {
 //         test();
         start();
     }
 
-    public void start()
-    {
+    public void start() {
         Request packet = null;
         Object sendPacket = null;
 
-        try
-        {
-            while(true)
-            {
+        try {
+            while (true) {
                 packet = (Request) ois.readObject();
                 logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - REQUESTS " + packet.getType().getName());
 
-                switch(packet.getType().type())
-                {
-                    case 1 :
+                switch (packet.getType().type()) {
+                    case 1:
                         sendPacket = RequestHandler.convenienceControl(packet);
 
                         break;
-                    case 2 :
+                    case 2:
                         sendPacket = RequestHandler.discountControl(packet);
 
                         break;
-                    case 3 :
+                    case 3:
                         sendPacket = RequestHandler.houseControl(packet);
 
                         break;
-                    case 4 :
+                    case 4:
                         sendPacket = RequestHandler.paymentControl(packet);
 
                         break;
-                    case 5 :
+                    case 5:
                         sendPacket = RequestHandler.reservationControl(packet);
 
                         break;
-                    case 6 :
+                    case 6:
                         sendPacket = RequestHandler.reviewControl(packet);
 
                         break;
-                    case 7 :
+                    case 7:
                         sendPacket = RequestHandler.userControl(packet);
 
                         break;
-                    case 8 :
+                    case 8:
                         sendPacket = RequestHandler.totalSalesControl(packet);
-                    default :
+
+                        break;
+                    case 9:
+
+                    default:
                         sendPacket = null;
-                        
+
                         break;
                 }
 
                 oos.writeObject(sendPacket);
                 oos.flush();
             }
-        }
-        catch (EOFException e)
-        {
+        } catch (EOFException e) {
             close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - NETWORK ERROR");
             close();
         }
     }
 
-    public void close()
-    {
-        try
-        {
+    public void close() {
+        try {
             logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - DISCONNECTED");
 
             ois.close();
             oos.close();
             clientSocket.close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void test()
-    {
-        try
-        {
-            while(true)
-            {
+    public void test() {
+        try {
+            while (true) {
                 String testString = (String) ois.readObject();
                 logger.logConsole(testString);
             }
-        }
-        catch(EOFException e)
-        {
+        } catch (EOFException e) {
             close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -165,15 +165,16 @@ public class RequestHandler {
             case 0x0B:
                 return resvDAO.allApprovedList();
             case 0x0C:
-                return resvDAO.allApprovedList((int) request.getRequestObject());
+                return resvDAO.allApprovedList((int) (long) request.getRequestObject());
             case 0x0D:
                 return resvDAO.dateList((int) request.getRequestObject());
             case 0x0E:
                 return resvDAO.hostAllInfo((int) request.getRequestObject());
             case 0x0F:
                 resvDAO.deleteReservation((int) request.getRequestObject());
-
                 return null;
+            case 0x10:
+                return resvDAO.hostAllInfoApproved((int) request.getRequestObject());
             default :
                 return null;
         }
@@ -242,7 +243,7 @@ public class RequestHandler {
 
                 return null;
             case 0x03:
-                return tosDAO.allTotalSales((int) request.getRequestObject());
+                return tosDAO.allTotalSales((int) (long) request.getRequestObject());
             default :
                 return null;
         }

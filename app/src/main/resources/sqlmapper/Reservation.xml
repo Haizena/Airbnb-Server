@@ -39,6 +39,14 @@
         WHERE host_no LIKE #{host_no} AND NOT isApproved
     </select>
 
+    <select id="hostAllInfoApproved" parameterType="int" resultMap="hostAllInfoResult">
+        SELECT user_no, name, reservation.house_no, houseName, check_in, check_out, reservation_no
+        FROM reservation
+                 JOIN user ON reservation.guest_no = user.user_no
+                 JOIN house ON reservation.house_no = house.house_no
+        WHERE host_no LIKE #{host_no} AND isApproved
+    </select>
+
     <select id="selectUnReviewedCheckOut" parameterType="int" resultType="HashMap">
         SELECT reservation_no, check_out
         FROM reservation

@@ -23,5 +23,7 @@ public enum TotalSalesRequest implements RequestType {
 
     public String getName() {
         return this.name();
+
     }
 }
+

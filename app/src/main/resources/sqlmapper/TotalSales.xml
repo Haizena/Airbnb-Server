@@ -26,4 +26,10 @@
                  JOIN reservation ON totalsales.reservation_no = reservation.reservation_no
         WHERE host_no LIKE #{host_no}
     </select>
+
+    <select id="allTotalSales" parameterType="int" resultType="HashMap">
+        SELECT *
+        FROM totalsales JOIN reservation ON totalsales.reservation_no = reservation.reservation_no
+        WHERE house_no LIKE #{house_no}
+    </select>
 </mapper>

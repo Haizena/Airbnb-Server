@@ -171,4 +171,5 @@
         WHERE reservation.house_no LIKE #{house_no}
             AND <![CDATA[(#{check_out} < check_in or #{check_in} > check_out)]]>
     </select>
+
 </mapper>

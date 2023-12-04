@@ -15,7 +15,8 @@ public enum ReservationRequest implements RequestType {
     ALL_APPROVED_LIST_BY_HOUSE_NO(5, 0x0C),
     DATE_LIST(5, 0x0D),
     HOST_ALL_INFO(5, 0x0E),
-    DELETE_RESERVATION(5, 0x0F);
+    DELETE_RESERVATION(5, 0x0F),
+    HOST_ALL_INFO_APPROVED(5,0x10);
 
     private final int type; // 요청 타입을 구분하기 위한 변수입니다.
     private final int value;
