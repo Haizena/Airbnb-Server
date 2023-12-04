@@ -33,7 +33,7 @@ public class ClientController implements Runnable {
 
     public void run()
     {
-        // test();
+//         test();
         start();
     }
 
@@ -97,6 +97,7 @@ public class ClientController implements Runnable {
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             logger.log("[CLIENT] " + clientSocket.getInetAddress().getHostName() + " - NETWORK ERROR");
             close();
         }

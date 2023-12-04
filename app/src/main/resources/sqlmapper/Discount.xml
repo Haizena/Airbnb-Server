@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.DiscountMapper">
-    <resultMap id="AmountResult" type="persistence.DTO.AmountDiscountDTO">
+    <resultMap id="AmountResult" type="airbnb.server.persistence.DTO.AmountDiscountDTO">
         <result property="amount" column="amount"/>
         <result property="house_no" column="house_no"/>
         <result property="discount_no" column="discount_no"/>
@@ -12,7 +12,7 @@
         <result property="dis_end_period" column="dis_end_period"/>
     </resultMap>
 
-    <resultMap id="RateResult" type="persistence.DTO.RateDiscountDTO">
+    <resultMap id="RateResult" type="airbnb.server.persistence.DTO.RateDiscountDTO">
         <result property="rate" column="rate"/>
         <result property="house_no" column="house_no"/>
         <result property="discount_no" column="discount_no"/>
@@ -41,7 +41,7 @@
         SELECT max(discount_no) FROM discount
     </select>
 
-    <insert id="insertDiscount" parameterType="persistence.DTO.DiscountDTO">
+    <insert id="insertDiscount" parameterType="airbnb.server.persistence.DTO.DiscountDTO">
         INSERT INTO discount(house_no, dis_start_period, dis_end_period)
         VALUES (#{house_no},
                 #{dis_start_period},

@@ -51,23 +51,6 @@ public class Main
         try
         {
             bw.write("kit 2023 Second Semester Fusion Project - Airbnb-Server v" + VERSION + "\n");
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            int flag = 0;
-            while (interfaces.hasMoreElements() && flag == 0) {
-                NetworkInterface networkInterface = interfaces.nextElement();
-                if (networkInterface.isLoopback())
-                    continue;
-                Enumeration<InetAddress> addresses = networkInterface.getInetAddresses();
-                while(addresses.hasMoreElements()) {
-                    InetAddress addr = addresses.nextElement();
-                    if (!addr.getHostAddress().contains(":"))
-                    {
-                        bw.write("[Server IP = " + addr.getHostAddress() + ":" + portNo + "]\n");
-                        flag = 1;
-                        break;
-                    }
-                }
-            }
 
             int selection = 0;
             while(selection != MAX_MENU)

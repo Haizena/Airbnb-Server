@@ -17,6 +17,18 @@ public class HouseDAO {
         this.sqlSessionFactory = sqlSessionFactory;
     }
 
+    public List<Map<String, Object>> selectApprovedAll(HashMap<String, Object> filter) {
+        List<Map<String, Object>> list;
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            list = sqlSession.selectList("mapper.HouseMapper.allHouseFilter", filter);
+        } finally {
+            sqlSession.close();
+        }
+        return list;
+    }
+
     public List<HouseDTO> selectApprovedAll(int host_no) {
         List<HouseDTO> list = null;
         SqlSession sqlSession = sqlSessionFactory.openSession();
@@ -29,17 +41,6 @@ public class HouseDAO {
         return list;
     }
 
-    public List<Map<String, Object>> selectApprovedAll(HashMap<String, Object> filter) {
-        List<Map<String, Object>> list;
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-
-        try {
-            list = sqlSession.selectList("mapper.HouseMapper.allHouseFilter", filter);
-        } finally {
-            sqlSession.close();
-        }
-        return list;
-    }
 
     public List<Map<String, Object>> selectApprovedAll() {
         List<Map<String, Object>> list = null;
