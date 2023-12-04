@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.HouseMapper">
-    <resultMap id="result" type="airbnb.server.persistence.DTO.HouseDTO">
+    <resultMap id="result" type="persistence.DTO.HouseDTO">
         <result property="house_no" column="house_no"/>
         <result property="maxMember" column="maxMember"/>
         <result property="host" column="host"/>
@@ -163,4 +163,11 @@
         UPDATE house SET managerApproved = true WHERE #{house_no}=house_no
     </update>
 
+    <select id="individualCheckInNum" parameterType="int" resultType="int">
+        SELECT count(reservation_no)
+        FROM house
+            JOIN individualroom ON house.house_no LIKE individualroom.house_no
+            JOIN reservation ON house.house_no LIKE reservation.house_no
+        WHERE reservation.house_no LIKE #{house_no}
+    </select>
 </mapper>

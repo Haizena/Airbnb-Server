@@ -25,6 +25,19 @@ public class DiscountDAO {
         }
         return list;
     }
+
+    public Map<String, Object> selectDiscountByReservation_no(int reservation_no){
+        Map<String, Object> list;
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            list = sqlSession.selectOne("mapper.DiscountMapper.selectDiscountByReservation_no", reservation_no);
+        } finally {
+            sqlSession.close();
+        }
+        return list;
+    }
+
     public int insertAmountDiscount(AmountDiscountDTO amountDiscountDTO){
         SqlSession sqlSession = sqlSessionFactory.openSession();
         int affectedRows = 0;

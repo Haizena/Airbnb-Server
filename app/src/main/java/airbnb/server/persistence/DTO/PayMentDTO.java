@@ -1,11 +1,13 @@
 package airbnb.server.persistence.DTO;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class PayMentDTO {
+public class PayMentDTO implements Serializable {
     public PayMentDTO(int house_no, int weekday_pay, int weekend_pay){
         this(weekday_pay,weekend_pay);
         this.house_no = house_no;

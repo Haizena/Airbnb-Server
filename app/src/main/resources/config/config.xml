@@ -5,7 +5,7 @@
 
 <configuration>
     <typeAliases>
-        <typeAlias alias="UserDTO" type="airbnb.server.persistence.DTO.UserDTO"/>
+        <typeAlias alias="UserDTO" type="persistence.DTO.UserDTO"/>
     </typeAliases>
 
     <environments default="development">
@@ -16,7 +16,7 @@
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/newfusion?characterEncoding=utf8&amp;serverTimezone=UTC&amp;useSSL=false&amp;allowPublicKeyRetrieval=true"/>
                 <property name="username" value="root"/>
-                <property name="password" value="dlawnstjr1!"/>
+                <property name="password" value="159633"/>
             </dataSource>
 
         </environment>
@@ -29,5 +29,6 @@
         <mapper resource="sqlmapper/User.xml"/>
         <mapper resource="sqlmapper/Reservation.xml"/>
         <mapper resource="sqlmapper/Review.xml"/>
+        <mapper resource="sqlmapper/TotalSales.xml"/>
     </mappers>
 </configuration>

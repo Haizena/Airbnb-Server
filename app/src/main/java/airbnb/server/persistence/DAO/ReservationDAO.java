@@ -145,8 +145,8 @@ public class ReservationDAO {
         }
         return list;
     }
-    public List<Map<String, Date>> allApprovedList (int house_no){
-        List<Map<String, Date>> list = null;
+    public List<Map<String,Object>> allApprovedList (int house_no){
+        List<Map<String, Object>> list = null;
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
         try {
@@ -156,17 +156,18 @@ public class ReservationDAO {
         }
         return list;
     }
-    public List<Map<String, Object>> allReservationedList (int host_no){
-        List<Map<String, Object>> list = null;
+    public Map<String, Date> dateList (int reservation_no){
+        Map<String, Date> list;
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
         try {
-            list = sqlSession.selectList("mapper.ReservationMapper.reservationDateList",host_no);
+            list = sqlSession.selectOne("mapper.ReservationMapper.dateList",reservation_no);
         } finally {
             sqlSession.close();
         }
         return list;
     }
+
     public List<Map<String, Object>> hostAllInfo (int host_no){
         List<Map<String, Object>> list = null;
         SqlSession sqlSession = sqlSessionFactory.openSession();

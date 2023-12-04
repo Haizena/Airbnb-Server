@@ -19,6 +19,7 @@ public class RequestHandler {
     private static ReservationDAO resvDAO;
     private static ReviewDAO revDAO;
     private static UserDAO usrDAO;
+    private static TotalSalesDAO tosDAO;
 
     static
     {
@@ -30,6 +31,7 @@ public class RequestHandler {
         resvDAO = new ReservationDAO(sqlSessionFactory);
         revDAO = new ReviewDAO(sqlSessionFactory);
         usrDAO = new UserDAO(sqlSessionFactory);
+        tosDAO = new TotalSalesDAO(sqlSessionFactory);
     }
 
     public synchronized static Object convenienceControl(Request request)
@@ -73,6 +75,8 @@ public class RequestHandler {
                 return discDAO.insertAmountDiscount((AmountDiscountDTO) request.getRequestObject());
             case 0x03:
                 return discDAO.insertRateDiscount((RateDiscountDTO) request.getRequestObject());
+            case 0x04:
+                return discDAO.selectDiscountByReservation_no((int) request.getRequestObject());
             default :
                 return null;
         }
@@ -89,7 +93,7 @@ public class RequestHandler {
             case 0x03:
                 return houseDAO.selectApprovedAll();
             case 0x04:
-                return houseDAO.selectHouseDTO((int) request.getRequestObject());
+                return houseDAO.selectHoustDTO((int) request.getRequestObject());
             case 0x05:
                 return houseDAO.selectUnApprovedAll();
             case 0x06:
@@ -123,6 +127,8 @@ public class RequestHandler {
                 return paymDAO.selectPayMent((int) request.getRequestObject());
             case 0x02:
                 return paymDAO.insertPayMent((PayMentDTO) request.getRequestObject());
+            case 0x03:
+                return paymDAO.selectPayMentByReservation_no((int) request.getRequestObject());
             default :
                 return null;
         }
@@ -161,7 +167,7 @@ public class RequestHandler {
             case 0x0C:
                 return resvDAO.allApprovedList((int) request.getRequestObject());
             case 0x0D:
-                return resvDAO.allReservationedList((int) request.getRequestObject());
+                return resvDAO.dateList((int) request.getRequestObject());
             case 0x0E:
                 return resvDAO.hostAllInfo((int) request.getRequestObject());
             case 0x0F:
@@ -216,7 +222,26 @@ public class RequestHandler {
                 return null;
             case 0x05:
                 return usrDAO.getPw((int) request.getRequestObject());
+            case 0x06:
+                return usrDAO.getName((int) request.getRequestObject());
             default:
+                return null;
+        }
+    }
+
+    public synchronized static Object totalSalesControl(Request request)
+    {
+        switch(request.getType().value())
+        {
+            case 0x01:
+                tosDAO.insertTotalAmount((TotalSalesDTO) request.getRequestObject());
+
+                return null;
+            case 0x02:
+                tosDAO.dropTotalAmount((int) request.getRequestObject());
+
+                return null;
+            default :
                 return null;
         }
     }

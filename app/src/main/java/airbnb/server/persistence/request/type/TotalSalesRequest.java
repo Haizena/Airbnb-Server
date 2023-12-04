@@ -1,17 +1,13 @@
 package airbnb.server.persistence.request.type;
 
-public enum UserRequest implements RequestType {
-    LOGIN_TYPE(7, 0x01),
-    INSERT_USER(7, 0x02),
-    MODIFY_USER(7, 0x03),
-    MODIFY_PW(7, 0x04),
-    GET_PW(7, 0x05),
-    GET_NAME(7, 0x06);
+public enum TotalSalesRequest implements RequestType {
+    INSERT_TOTAL_AMOUNT(8, 0x01),
+    DROP_TOTAL_AMOUNT(8, 0x02);
 
     private final int type; // 요청 타입을 구분하기 위한 변수입니다.
     private final int value;
 
-    private UserRequest(int type, int value) {
+    private TotalSalesRequest(int type, int value) {
         this.type = type;
         this.value = value;
     }

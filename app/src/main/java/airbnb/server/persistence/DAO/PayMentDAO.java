@@ -5,6 +5,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import airbnb.server.persistence.DTO.PayMentDTO;
 
+import java.util.Map;
+
 public class PayMentDAO {
     private final SqlSessionFactory sqlSessionFactory;
 
@@ -36,4 +38,15 @@ public class PayMentDAO {
         return affectedRows;
     }
 
+    public Map<String, Object> selectPayMentByReservation_no(int reservation_no){
+        Map<String, Object> payMent;
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            payMent = sqlSession.selectOne("mapper.PayMentMapper.selectPayMentByReservation_no",reservation_no);
+        } finally {
+            sqlSession.close();
+        }
+        return payMent;
+    }
 }

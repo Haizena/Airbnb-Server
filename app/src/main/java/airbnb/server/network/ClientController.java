@@ -79,6 +79,8 @@ public class ClientController implements Runnable {
                         sendPacket = RequestHandler.userControl(packet);
 
                         break;
+                    case 8 :
+                        sendPacket = RequestHandler.totalSalesControl(packet);
                     default :
                         sendPacket = null;
                         

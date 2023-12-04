@@ -1,11 +1,13 @@
 package airbnb.server.persistence.DTO;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class IndividualRoomDTO{
+public class IndividualRoomDTO implements Serializable {
 
     public IndividualRoomDTO(int roomNumber){
         this.roomNumber = roomNumber;

@@ -1,11 +1,13 @@
 package airbnb.server.persistence.DTO;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class BasicConveDTO {
+public class BasicConveDTO implements Serializable {
     public BasicConveDTO(boolean toiletPaper, boolean soap, boolean towel, boolean bedclothes, boolean pilow, boolean cleaningSupplies) {
         this.toiletPaper = toiletPaper;
         this.soap = soap;

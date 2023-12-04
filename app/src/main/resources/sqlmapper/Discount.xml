@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.DiscountMapper">
-    <resultMap id="AmountResult" type="airbnb.server.persistence.DTO.AmountDiscountDTO">
+    <resultMap id="AmountResult" type="persistence.DTO.AmountDiscountDTO">
         <result property="amount" column="amount"/>
         <result property="house_no" column="house_no"/>
         <result property="discount_no" column="discount_no"/>
@@ -12,7 +12,7 @@
         <result property="dis_end_period" column="dis_end_period"/>
     </resultMap>
 
-    <resultMap id="RateResult" type="airbnb.server.persistence.DTO.RateDiscountDTO">
+    <resultMap id="RateResult" type="persistence.DTO.RateDiscountDTO">
         <result property="rate" column="rate"/>
         <result property="house_no" column="house_no"/>
         <result property="discount_no" column="discount_no"/>
@@ -28,11 +28,20 @@
         WHERE house_no LIKE #{house_no}
     </select>
 
+    <select id="selectDiscountByReservation_no" parameterType="int" resultType="Map">
+        SELECT dis_start_period, dis_end_period, rate, amount
+        FROM amount_discount
+                 RIGHT JOIN discount ON amount_discount.discount_no = discount.discount_no
+                 LEFT JOIN rate_discount ON discount.discount_no = rate_discount.discount_no
+                 JOIN reservation ON discount.house_no LIKE reservation.house_no
+        WHERE reservation_no LIKE #{reservation_no}
+    </select>
+
     <select id="recentlyAddedDiscountNo" resultType="int">
         SELECT max(discount_no) FROM discount
     </select>
 
-    <insert id="insertDiscount" parameterType="airbnb.server.persistence.DTO.DiscountDTO">
+    <insert id="insertDiscount" parameterType="persistence.DTO.DiscountDTO">
         INSERT INTO discount(house_no, dis_start_period, dis_end_period)
         VALUES (#{house_no},
                 #{dis_start_period},

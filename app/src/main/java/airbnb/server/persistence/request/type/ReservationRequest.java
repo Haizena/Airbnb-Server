@@ -13,7 +13,7 @@ public enum ReservationRequest implements RequestType {
     SELECT_UNREVIEWED_CHECKOUT(5, 0x0A),
     ALL_APPROVED_LIST(5, 0x0B),
     ALL_APPROVED_LIST_BY_HOUSE_NO(5, 0x0C),
-    ALL_RESERVATIONED_LIST(5, 0x0D),
+    DATE_LIST(5, 0x0D),
     HOST_ALL_INFO(5, 0x0E),
     DELETE_RESERVATION(5, 0x0F);
 

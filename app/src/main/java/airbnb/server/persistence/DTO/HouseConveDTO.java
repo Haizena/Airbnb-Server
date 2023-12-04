@@ -1,11 +1,13 @@
 package airbnb.server.persistence.DTO;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class HouseConveDTO {
+public class HouseConveDTO implements Serializable {
     public HouseConveDTO(int basic_no, int manysearch_no, int safety_no, int access_no) {
         this.basic_no = basic_no;
         this.manysearch_no = manysearch_no;

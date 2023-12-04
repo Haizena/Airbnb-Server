@@ -1,6 +1,8 @@
 package airbnb.server.persistence.DTO;
 
-public class LoginedUser {
+import java.io.Serializable;
+
+public class LoginedUser implements Serializable {
     public LoginedUser(User userType, int user_no) {
         this.userType = userType;
         this.user_no = user_no;

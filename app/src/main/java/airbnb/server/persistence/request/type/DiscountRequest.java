@@ -3,7 +3,8 @@ package airbnb.server.persistence.request.type;
 public enum DiscountRequest implements RequestType {
     SELECT_DISCOUNT(2, 0x01),
     INSERT_AMOUNT_DISCOUNT(2, 0x02),
-    INSERT_RATE_DISCOUNT(2, 0x03);
+    INSERT_RATE_DISCOUNT(2, 0x03),
+    SELECT_DISCOUNT_BY_RESERVATION_NO(2, 0x04);
 
     private final int type; // 요청 타입을 구분하기 위한 변수입니다.
     private final int value;

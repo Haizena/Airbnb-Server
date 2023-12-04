@@ -1,11 +1,13 @@
 package airbnb.server.persistence.DTO;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class ReviewDTO {
+public class ReviewDTO implements Serializable {
     public ReviewDTO(int reservation_no, String comment, double star){
         this.reservation_no = reservation_no;
         this.comment = comment;

@@ -1,5 +1,7 @@
 package airbnb.server.persistence.DTO;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class HouseDTO {
+public class HouseDTO implements Serializable {
     private int house_no, maxMember, host, houseconve, bedroom, bed, bathroom;
     private String houseName, address, introduction;
     private boolean managerApproved;

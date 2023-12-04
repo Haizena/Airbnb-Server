@@ -1,10 +1,9 @@
 package airbnb.server.persistence.DAO;
 
-import airbnb.server.persistence.DTO.LoginedUser;
-import airbnb.server.persistence.DTO.UserDTO;
-
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import airbnb.server.persistence.DTO.LoginedUser;
+import airbnb.server.persistence.DTO.UserDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +90,16 @@ public class UserDAO {
         String pw;
         try {
             pw=sqlSession.selectOne("mapper.UserMapper.getPw",user_no);
+        } finally {
+            sqlSession.close();
+        }
+        return pw;
+    }
+    public String getName(int user_no){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        String pw;
+        try {
+            pw=sqlSession.selectOne("mapper.UserMapper.getName",user_no);
         } finally {
             sqlSession.close();
         }

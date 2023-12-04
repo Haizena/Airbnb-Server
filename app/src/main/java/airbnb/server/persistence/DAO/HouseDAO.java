@@ -45,14 +45,15 @@ public class HouseDAO {
         List<Map<String, Object>> list = null;
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
-        list = sqlSession.selectList("mapper.HouseMapper.allApprovedHouseInfo");
-            
-        sqlSession.close();
-        
+        try {
+            list = sqlSession.selectList("mapper.HouseMapper.allApprovedHouseInfo");
+        } finally {
+            sqlSession.close();
+        }
         return list;
     }
 
-    public HouseDTO selectHouseDTO(int house_no) {
+    public HouseDTO selectHoustDTO(int house_no) {
         HouseDTO dto;
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
@@ -64,8 +65,8 @@ public class HouseDAO {
         return dto;
     }
 
-    public List<HouseDTO> selectUnApprovedAll() {
-        List<HouseDTO> list = null;
+    public List<Map<String, Object>> selectUnApprovedAll() {
+        List<Map<String, Object>> list = null;
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
         try {
@@ -189,15 +190,15 @@ public class HouseDAO {
         return list;
     }
 
-    public void manageApprove(int house_no) {
+    public int individualCheckInNum(Map<String, Object> map) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
+        int checkInNum;
 
         try {
-            sqlSession.insert("mapper.ReservationMapper.checkOuted", house_no);
-            sqlSession.flushStatements();
-            sqlSession.commit();
+            checkInNum = sqlSession.selectOne("mapper.HouseMapper.individualCheckInNum", map);
         } finally {
             sqlSession.close();
         }
+        return checkInNum;
     }
 }

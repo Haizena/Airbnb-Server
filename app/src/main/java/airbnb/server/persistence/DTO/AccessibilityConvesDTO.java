@@ -1,11 +1,14 @@
+
 package airbnb.server.persistence.DTO;
+
+import java.io.Serializable;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class AccessibilityConvesDTO {
+public class AccessibilityConvesDTO implements Serializable {
     public AccessibilityConvesDTO(boolean no_stair_entrance, boolean entrance_width, boolean corridor_width) {
         this.no_stair_entrance = no_stair_entrance;
         this.entrance_width = entrance_width;

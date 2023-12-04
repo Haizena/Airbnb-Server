@@ -1,11 +1,13 @@
 package airbnb.server.persistence.DTO;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class SafetyConveDTO {
+public class SafetyConveDTO implements Serializable {
     public SafetyConveDTO(boolean carbon_Monoxide, boolean fire_waring, boolean extinguisher, boolean aid_kit, boolean emergencyInformation) {
         this.carbon_Monoxide = carbon_Monoxide;
         this.fire_waring = fire_waring;

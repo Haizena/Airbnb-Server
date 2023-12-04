@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 @Getter @Setter @NoArgsConstructor
-public class DiscountDTO {
+public class DiscountDTO implements Serializable {
     public DiscountDTO(int discount_no, int house_no, Date dis_start_period, Date dis_end_period) {
         this.discount_no = discount_no;
         this.house_no = house_no;

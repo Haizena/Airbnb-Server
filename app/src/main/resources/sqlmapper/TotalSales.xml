@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.TotalSales">
+    <insert id="insertTotalSales" parameterType="persistence.DTO.TotalSalesDTO">
+        INSERT IGNORE INTO totalsales
+        VALUES (#{reservation_no}, #{totalAmount})
+    </insert>
+
+    <delete id="dropTotalSales" parameterType="int">
+        DELETE FROM totalsales
+        WHERE reservation_no LIKE #{reservation_no}
+    </delete>
+
+    <select id="selectTotalSales" parameterType="int" resultType="int">
+        SELECT totalAmount
+        FROM totalsales
+        WHERE reservation_no LIKE #{reservation_no}
+    </select>
+
+    <select id="selectTotalSalesByHost" parameterType="int" resultType="int">
+        SELECT sum(totalAmount)
+        FROM totalsales
+                 JOIN reservation ON totalsales.reservation_no = reservation.reservation_no
+        WHERE host_no LIKE #{host_no}
+    </select>
+</mapper>

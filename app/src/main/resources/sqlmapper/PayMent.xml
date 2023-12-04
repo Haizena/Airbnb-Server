@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.PayMentMapper">
-    <resultMap id="result" type="airbnb.server.persistence.DTO.PayMentDTO">
+    <resultMap id="result" type="persistence.DTO.PayMentDTO">
         <result property="weekday_pay" column="weekday_pay"/>
         <result property="weekend_pay" column="weekend_pay"/>
         <result property="house_no" column="house_no"/>
@@ -14,7 +14,13 @@
         SELECT * FROM payment WHERE house_no LIKE #{house_no}
     </select>
 
-    <insert id="insertPayMent" parametertype="airbnb.server.persistence.DTO.PayMentDTO">
+    <select id="selectPayMentByReservation_no" parameterType="int" resultType="HashMap">
+        SELECT weekend_pay, weekday_pay
+        FROM payment JOIN reservation ON reservation.house_no LIKE payment.house_no
+        WHERE reservation_no LIKE #{reservation_no}
+    </select>
+
+    <insert id="insertPayMent" parameterType="persistence.DTO.PayMentDTO">
         INSERT INTO payment(house_no, weekday_pay, weekend_pay)
         VALUES (#{house_no},
                 #{weekday_pay},

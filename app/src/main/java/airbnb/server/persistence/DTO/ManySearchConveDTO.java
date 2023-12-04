@@ -1,11 +1,13 @@
 package airbnb.server.persistence.DTO;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class ManySearchConveDTO {
+public class ManySearchConveDTO implements Serializable {
     public ManySearchConveDTO(boolean pool, boolean wifi, boolean kitchen, boolean free_parking, boolean jacuzzi, boolean washer_dryer, boolean air_conditioner, boolean self_check_in, boolean notebook_work_space, boolean can_pets) {
         this.pool = pool;
         this.wifi = wifi;
