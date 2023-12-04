@@ -19,7 +19,7 @@ import airbnb.server.util.Logger;
 public class Main
 {
     private static final String VERSION = "1.0";
-    private static final int DEFAULT_PORT_NO = 8889;
+    private static final int DEFAULT_PORT_NO = 8887;
     private static final int MAX_MENU = 3;
     
     private static BufferedReader br;

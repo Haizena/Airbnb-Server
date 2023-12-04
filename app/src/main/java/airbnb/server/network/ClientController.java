@@ -106,17 +106,4 @@ public class ClientController implements Runnable {
             e.printStackTrace();
         }
     }
-
-    public void test() {
-        try {
-            while (true) {
-                String testString = (String) ois.readObject();
-                logger.logConsole(testString);
-            }
-        } catch (EOFException e) {
-            close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
