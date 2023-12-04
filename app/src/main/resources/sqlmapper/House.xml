@@ -172,4 +172,9 @@
             AND <![CDATA[(#{check_out} < check_in or #{check_in} > check_out)]]>
     </select>
 
+    <select id="selectJoinedHouse" parameterType="int" resultType="HashMap">
+        SELECT *
+        FROM house LEFT JOIN individualroom ON house.house_no LIKE individualroom.house_no
+        WHERE house.house_no LIKE #{house_no}
+    </select>
 </mapper>

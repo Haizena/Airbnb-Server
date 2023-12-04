@@ -202,4 +202,16 @@ public class HouseDAO {
         }
         return checkInNum;
     }
+
+    public Map<String, Object> selectJoinedHouse (int house_no){
+        Map<String, Object> list;
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            list = sqlSession.selectOne("mapper.HouseMapper.selectJoinedHouse", house_no);
+        } finally {
+            sqlSession.close();
+        }
+        return list;
+    }
 }

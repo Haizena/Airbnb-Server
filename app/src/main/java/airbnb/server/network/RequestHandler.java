@@ -114,6 +114,8 @@ public class RequestHandler {
                 return houseDAO.allPayment((int) request.getRequestObject());
             case 0x0D:
                 return houseDAO.allDiscountInfo((int) request.getRequestObject());
+            case 0x0E:
+                return houseDAO.selectJoinedHouse((int) request.getRequestObject());
             default :
                 return null;
         }

@@ -13,7 +13,8 @@ public enum HouseRequest implements RequestType {
     SELECT_ALL_ORDER_BY_PAYMENT_ASC(3, 0x0A), // 0x0A == 10
     SELECT_ALL_ORDER_BY_PAYMENT_DESC(3, 0x0B),
     ALL_PAYMENT(3, 0x0C),
-    ALL_DISCOUNT_INFO(3, 0x0D);
+    ALL_DISCOUNT_INFO(3, 0x0D),
+    SELECT_JOINED_HOUSE(3,0x0E);
 
     private final int type; // 요청 타입을 구분하기 위한 변수입니다.
     private final int value;
