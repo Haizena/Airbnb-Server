@@ -64,11 +64,11 @@
     </select>
 
     <insert id="insertReservation" >
-        INSERT INTO reservation(host_no, guest_no, house_no,check_in,check_out, isReviewed)
+        INSERT INTO reservation(host_no, guest_no, house_no,people_num,check_in,check_out, isReviewed)
         VALUES (#{host_no},
                 #{guest_no},
                 #{house_no},
-                #{poeple_num},
+                #{people_num},
                 #{check_in},
                 #{check_out},
                 #{isReviewed}
@@ -103,7 +103,7 @@
     </select>
 
     <select id="reservationApprovedList" parameterType="int" resultType="HashMap">
-        SELECT check_in, check_out
+        SELECT *
         FROM reservation
         WHERE house_no LIKE #{house_no} AND isApproved
     </select>

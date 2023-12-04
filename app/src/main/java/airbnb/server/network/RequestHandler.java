@@ -241,6 +241,8 @@ public class RequestHandler {
                 tosDAO.dropTotalAmount((int) request.getRequestObject());
 
                 return null;
+            case 0x03:
+                return tosDAO.allTotalSales((int) request.getRequestObject());
             default :
                 return null;
         }

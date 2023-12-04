@@ -1,9 +1,13 @@
 package airbnb.server.persistence.DAO;
 
+import airbnb.server.persistence.DTO.UserDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import airbnb.server.persistence.DTO.TotalSalesDTO;
+
+import java.util.List;
+import java.util.Map;
 
 public class TotalSalesDAO {
     private final SqlSessionFactory sqlSessionFactory;
@@ -61,5 +65,17 @@ public class TotalSalesDAO {
             sqlSession.close();
         }
         return totalAmount;
+    }
+
+    public List<Map<String, Object>> allTotalSales(int house_no){
+        List<Map<String, Object>> list = null;
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        try {
+            list = sqlSession.selectList("mapper.TotalSales.allTotalSales");
+        } finally {
+            sqlSession.close();
+        }
+        return list;
     }
 }

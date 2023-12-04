@@ -20,6 +20,12 @@
         WHERE user_no LIKE #{user_no}
     </select>
 
+    <select id="getName" parameterType="int" resultType="String">
+        SELECT name
+        FROM user
+        WHERE user_no LIKE #{user_no}
+    </select>
+
     <select id="allUserInfo" resultMap="result">
         SELECT * FROM user
     </select>
